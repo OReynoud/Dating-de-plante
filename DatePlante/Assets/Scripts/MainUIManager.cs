@@ -41,7 +41,7 @@ public class MainUIManager : MonoBehaviour
             if (keyboardCurveTimer < hideKeyboardCurve.keys[^1].time)
             {
                 keyboardCurveTimer += Time.deltaTime;
-                keyboardAimedPosition = Vector2.LerpUnclamped(keyboardShownPos,keyboardHiddenPos,showKeyboardCurve.Evaluate(keyboardCurveTimer));
+                keyboardAimedPosition = Vector2.LerpUnclamped(keyboardShownPos,keyboardHiddenPos,hideKeyboardCurve.Evaluate(keyboardCurveTimer));
             }
         }
 
