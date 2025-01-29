@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
+    public static PlayerInputManager instance;
     private PlayerInput _playerInput;
     private InputAction touchPosAction;
     private InputAction touchPressAction;
@@ -15,6 +16,12 @@ public class PlayerInputManager : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
         touchPosAction = _playerInput.actions["TouchPos"];    
         touchPressAction = _playerInput.actions["Tap"];   
+        if (instance != null)
+        {
+            DestroyImmediate(this);
+        }
+
+        instance = this;
     }
 
     private void OnEnable()

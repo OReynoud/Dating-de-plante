@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
@@ -6,6 +7,7 @@ using Screen = UnityEngine.Device.Screen;
 
 public class MainUIManager : MonoBehaviour
 {
+    public static MainUIManager instance;
     [BoxGroup("Keyboard")]public RectTransform keyboardTransform;
     [BoxGroup("Keyboard")]public AnimationCurve showKeyboardCurve;
     [BoxGroup("Keyboard")]public AnimationCurve hideKeyboardCurve;
@@ -15,13 +17,26 @@ public class MainUIManager : MonoBehaviour
     [BoxGroup("Keyboard")]private Vector2 keyboardShownPos;
     [BoxGroup("Keyboard")]private Vector2 keyboardHiddenPos;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            DestroyImmediate(this);
+        }
+
+        instance = this;
+    }
+
     void Start()
     {
         keyboardTransform.sizeDelta = new Vector2(Screen.width, Screen.height * heightPercent);
         
         keyboardShownPos = Vector2.up * keyboardTransform.sizeDelta.y *0.5f;
         keyboardHiddenPos = Vector2.down * keyboardTransform.sizeDelta.y *0.5f;
-        
+
+        keyboardCurveTimer = hideKeyboardCurve.keys[^1].time - Time.deltaTime;
+
     }
 
     private Vector2 keyboardAimedPosition;
@@ -53,6 +68,7 @@ public class MainUIManager : MonoBehaviour
     {
         showKeyboard = true;
         keyboardCurveTimer = 0;
+        PlantManager.instance.aimedYLerp = PlantManager.instance.keyboardYLerp;
     }
     
     [Button]
@@ -60,5 +76,6 @@ public class MainUIManager : MonoBehaviour
     {
         showKeyboard = false;
         keyboardCurveTimer = 0;
+        PlantManager.instance.aimedYLerp = PlantManager.instance.defaultYLerp;
     }
 }
