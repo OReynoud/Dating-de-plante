@@ -1,10 +1,15 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class PlantManager : MonoBehaviour
 {
     public static PlantManager instance;
+    public TMP_Dropdown wateringCanOptions;
     public ThemesList chosenTheme;
     public QuestionTypes chosenType;
+    public WateringCanModule wateringCanModule;
 
     public Transform flowerTransform;
 
@@ -32,6 +37,12 @@ public class PlantManager : MonoBehaviour
         maxYPos = Camera.main.ScreenToWorldPoint(new Vector3(0,Screen.height, -10)).y;
         minYPos = Camera.main.ScreenToWorldPoint(new Vector3(0,0, -10)).y;
         aimedYLerp = defaultYLerp;
+        MainUIManager.instance.KeyboardEvent.AddListener(HandleKeyboardEvent);
+    }
+
+    private void HandleKeyboardEvent(bool shown)
+    {
+        aimedYLerp = shown ? keyboardYLerp : defaultYLerp;
     }
 
     // Update is called once per frame
@@ -41,5 +52,17 @@ public class PlantManager : MonoBehaviour
             new Vector3(flowerTransform.position.x,maxYPos,flowerTransform.position.z), lerpYPos);
 
         lerpYPos = Mathf.Lerp(lerpYPos, aimedYLerp, animSpeed);
+    }
+
+    public void ChooseWateringCan()
+    {
+        wateringCanModule.UpdateWateringCanType((QuestionTypes)wateringCanOptions.value + 1);
+    }
+
+    public void ValidateWateringCanChoice(QuestionTypes ChosenType)
+    {
+        chosenType = ChosenType;
+        wateringCanModule.gameObject.SetActive(false);
+        wateringCanOptions.gameObject.SetActive(false);
     }
 }

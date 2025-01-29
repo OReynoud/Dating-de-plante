@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 using Screen = UnityEngine.Device.Screen;
 
 public class MainUIManager : MonoBehaviour
@@ -16,6 +17,8 @@ public class MainUIManager : MonoBehaviour
     [BoxGroup("Keyboard")]private bool showKeyboard;
     [BoxGroup("Keyboard")]private Vector2 keyboardShownPos;
     [BoxGroup("Keyboard")]private Vector2 keyboardHiddenPos;
+
+    public UnityEvent<bool> KeyboardEvent { get; set; } = new();
     // Start is called before the first frame update
 
     private void Awake()
@@ -68,7 +71,9 @@ public class MainUIManager : MonoBehaviour
     {
         showKeyboard = true;
         keyboardCurveTimer = 0;
-        PlantManager.instance.aimedYLerp = PlantManager.instance.keyboardYLerp;
+        if (KeyboardEvent != null)
+            KeyboardEvent.Invoke(true);
+        
     }
     
     [Button]
@@ -76,6 +81,7 @@ public class MainUIManager : MonoBehaviour
     {
         showKeyboard = false;
         keyboardCurveTimer = 0;
-        PlantManager.instance.aimedYLerp = PlantManager.instance.defaultYLerp;
+        if (KeyboardEvent != null)
+            KeyboardEvent.Invoke(false);
     }
 }
