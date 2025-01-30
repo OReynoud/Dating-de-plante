@@ -20,6 +20,8 @@ public class WateringCanModule : MonoBehaviour
     [Foldout("Debug")] public float wateringTimer;
     [Foldout("Debug")] public QuestionTypes currentType;
 
+    private bool isValidated;
+
     
     
     // Start is called before the first frame update
@@ -49,8 +51,9 @@ public class WateringCanModule : MonoBehaviour
         {
             wateringTimer += Time.deltaTime;
         }
-        else
+        else if (!isValidated)
         {
+            isValidated = true;
             PlantManager.instance.ValidateWateringCanChoice(currentType);
         }
         

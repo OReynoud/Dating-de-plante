@@ -44,6 +44,15 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Swipe"",
+                    ""type"": ""Button"",
+                    ""id"": ""837c44ae-6f3c-40cc-b7ed-812d9b2ed3f7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -68,6 +77,17 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
                     ""action"": ""TouchPos"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e3b779c2-60c0-45d9-ac56-fa2511393a60"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swipe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -78,6 +98,7 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
         m_TouchMap = asset.FindActionMap("TouchMap", throwIfNotFound: true);
         m_TouchMap_Tap = m_TouchMap.FindAction("Tap", throwIfNotFound: true);
         m_TouchMap_TouchPos = m_TouchMap.FindAction("TouchPos", throwIfNotFound: true);
+        m_TouchMap_Swipe = m_TouchMap.FindAction("Swipe", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -141,12 +162,14 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
     private List<ITouchMapActions> m_TouchMapActionsCallbackInterfaces = new List<ITouchMapActions>();
     private readonly InputAction m_TouchMap_Tap;
     private readonly InputAction m_TouchMap_TouchPos;
+    private readonly InputAction m_TouchMap_Swipe;
     public struct TouchMapActions
     {
         private @TouchControls m_Wrapper;
         public TouchMapActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Tap => m_Wrapper.m_TouchMap_Tap;
         public InputAction @TouchPos => m_Wrapper.m_TouchMap_TouchPos;
+        public InputAction @Swipe => m_Wrapper.m_TouchMap_Swipe;
         public InputActionMap Get() { return m_Wrapper.m_TouchMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -162,6 +185,9 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
             @TouchPos.started += instance.OnTouchPos;
             @TouchPos.performed += instance.OnTouchPos;
             @TouchPos.canceled += instance.OnTouchPos;
+            @Swipe.started += instance.OnSwipe;
+            @Swipe.performed += instance.OnSwipe;
+            @Swipe.canceled += instance.OnSwipe;
         }
 
         private void UnregisterCallbacks(ITouchMapActions instance)
@@ -172,6 +198,9 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
             @TouchPos.started -= instance.OnTouchPos;
             @TouchPos.performed -= instance.OnTouchPos;
             @TouchPos.canceled -= instance.OnTouchPos;
+            @Swipe.started -= instance.OnSwipe;
+            @Swipe.performed -= instance.OnSwipe;
+            @Swipe.canceled -= instance.OnSwipe;
         }
 
         public void RemoveCallbacks(ITouchMapActions instance)
@@ -193,5 +222,6 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
     {
         void OnTap(InputAction.CallbackContext context);
         void OnTouchPos(InputAction.CallbackContext context);
+        void OnSwipe(InputAction.CallbackContext context);
     }
 }

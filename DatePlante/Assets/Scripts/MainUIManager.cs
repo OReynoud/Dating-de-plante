@@ -33,7 +33,7 @@ public class MainUIManager : MonoBehaviour
 
     void Start()
     {
-        keyboardTransform.sizeDelta = new Vector2(Screen.width, Screen.height * heightPercent);
+        keyboardTransform.sizeDelta = new Vector2(Display.main.systemWidth, Display.main.systemHeight * heightPercent);
         
         keyboardShownPos = Vector2.up * keyboardTransform.sizeDelta.y *0.5f;
         keyboardHiddenPos = Vector2.down * keyboardTransform.sizeDelta.y *0.5f;

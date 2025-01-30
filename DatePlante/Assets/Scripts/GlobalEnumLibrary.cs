@@ -23,3 +23,10 @@ public enum QuestionTypes
     FunFacts = 2,
     FakeScenarios = 3
 }
+public enum AnchorType
+{
+    Right = 0,
+    Left = 1,
+    Up = 2,
+    Down = 3
+}

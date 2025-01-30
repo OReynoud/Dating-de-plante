@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
@@ -10,12 +11,16 @@ public class PlayerInputManager : MonoBehaviour
     private PlayerInput _playerInput;
     private InputAction touchPosAction;
     private InputAction touchPressAction;
+    
+    public Vector3 previousPos { get; set; }
     public Vector3 touchWorldPos;
     public float touchSize;
     public LayerMask canDragMask;
     public Transform objectToDrag;
     public float dragLerp;
+    public UnityEvent OnTouchRelease { get; set; } = new();
 
+    private float pressTime;
     void Awake()
     {
         if (instance != null)
@@ -45,6 +50,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private void Update()
     {
+        previousPos = touchWorldPos;
         touchWorldPos = _playerInput.camera.ScreenToWorldPoint(touchPosAction.ReadValue<Vector2>());
         touchWorldPos.z = 0;
         if (objectToDrag)
@@ -58,13 +64,20 @@ public class PlayerInputManager : MonoBehaviour
         float value = obj.ReadValue<float>();
         touchWorldPos = _playerInput.camera.ScreenToWorldPoint(touchPosAction.ReadValue<Vector2>());
         touchWorldPos.z = 0;
-        if (Physics.SphereCast(touchWorldPos + Vector3.back,touchSize,Vector3.forward, out RaycastHit hit, 3))
+        previousPos = touchWorldPos;
+        if (Physics.SphereCast(touchWorldPos + Vector3.back * 3,touchSize,Vector3.forward, out RaycastHit hit, 6))
         {
             
             Debug.Log("Hit");
-            objectToDrag = hit.transform;
+            if (hit.transform.TryGetComponent(out PlantManager plant))
+            {
+                plant.isRotating = true;
+            }
+            else
+            {
+                objectToDrag = hit.transform;
+            }
         }
-        Debug.DrawRay(touchWorldPos,Vector3.up * 3,Color.red,5);
         //Debug.Log("Pressed at:" + touchWorldPos);
     }
     
@@ -72,6 +85,12 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (objectToDrag)
             objectToDrag = null;
+        
+        previousPos = touchWorldPos;
+        touchWorldPos = _playerInput.camera.ScreenToWorldPoint(touchPosAction.ReadValue<Vector2>());
+        touchWorldPos.z = 0;
+        if (OnTouchRelease != null)
+            OnTouchRelease.Invoke();
         //Debug.Log("Released at:" + touchWorldPos);
     }
 
