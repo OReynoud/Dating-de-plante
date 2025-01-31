@@ -10,8 +10,8 @@ public enum ThemesList
     Literature = 7,
     Arts = 8,
     Technology = 9,
-    History = 10,
-    Astrology = 11,
+    BDAndManga = 10,
+    Cooking = 11,
     WorkAndStudies = 12,
     Fashion = 13
 }
