@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e763eb8e3aadbe4c8af9e5f829927e3, type: 3}
   m_Name: AS1_Question
   m_EditorClassIdentifier: 
-  questionTheme: 0
-  questionType: 0
+  questionTheme: 1
+  questionType: 1
   questionContent: Quel est ton sport favoris ?
