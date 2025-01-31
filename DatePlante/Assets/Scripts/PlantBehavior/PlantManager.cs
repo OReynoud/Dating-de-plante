@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NaughtyAttributes;
 using TMPro;
 using Unity.VisualScripting;
@@ -15,6 +16,10 @@ public class PlantManager : MonoBehaviour
     public ThemesList chosenTheme;
     public QuestionTypes chosenType;
     public WateringCanModule wateringCanModule;
+    public FertilizerModule fertilizerModule;
+    public TextMeshProUGUI questionText;
+    public QuestionListSo allQuestions;
+   
 
     public Transform flowerTransform;
 
@@ -37,6 +42,10 @@ public class PlantManager : MonoBehaviour
 
     public UnityEvent<bool> OnQuestionTypeValidate { get; set; } = new();
     public UnityEvent<bool> OnQuestionTypeEnter { get; set; } = new();
+    public UnityEvent<bool> OnQuestionThemeValidate { get; set; } = new();
+    public UnityEvent<bool> OnQuestionThemeEnter { get; set; } = new();
+
+    private List<QuestionSo> tempQuestionsHolder = new List<QuestionSo>();
 
 
     private void Awake()
@@ -100,16 +109,54 @@ public class PlantManager : MonoBehaviour
     {
         wateringCanModule.UpdateWateringCanType((QuestionTypes)wateringCanOptions.value + 1);
     }
+    public void ChooseFertilizer(int index)
+    {
+        fertilizerModule.UpdateFertilizerType((ThemesList)index);
+    }
 
     public void ValidateWateringCanChoice(QuestionTypes ChosenType)
     {
         chosenType = ChosenType;
-        //wateringCanModule.gameObject.SetActive(false);
-        //wateringCanOptions.gameObject.SetActive(false);
         PlayerInputManager.instance.objectToDrag = null;
         GrowPlant();
         if (OnQuestionTypeValidate != null)
             OnQuestionTypeValidate.Invoke(false);
+        if (chosenTheme == ThemesList.None)
+            MainUIManager.instance.fertilizerButton.SetActive(true);
+        
+        
+        if (chosenType != QuestionTypes.None && chosenTheme != ThemesList.None)
+            AskQuestion();
+    }
+    public void ValidateFertilizerChoice(ThemesList ChosenTheme)
+    {
+        chosenTheme = ChosenTheme;
+        PlayerInputManager.instance.objectToDrag = null;
+        GrowPlant();
+        if (OnQuestionThemeValidate != null)
+            OnQuestionThemeValidate.Invoke(false);
+        if (chosenType == QuestionTypes.None)
+            MainUIManager.instance.wateringButton.SetActive(true);
+
+        if (chosenType != QuestionTypes.None && chosenTheme != ThemesList.None)
+            AskQuestion();
+    }
+
+    private void AskQuestion()
+    {
+        tempQuestionsHolder.Clear();
+        foreach (var question in allQuestions.allQuestions)
+        {
+            if (question.questionTheme != chosenTheme)
+                continue;
+            if (question.questionType != chosenType)
+                continue;
+            tempQuestionsHolder.Add(question);
+        }
+
+        int rand = Random.Range(0, tempQuestionsHolder.Count);
+        questionText.transform.parent.gameObject.SetActive(true);
+        questionText.text = tempQuestionsHolder[rand].questionContent;
     }
 
     public void PlantReleaseSpin()
@@ -125,6 +172,13 @@ public class PlantManager : MonoBehaviour
         if (OnQuestionTypeEnter != null)
             OnQuestionTypeEnter.Invoke(true);
         ChooseWateringCan();
+    }
+
+    public void StartFertilizing()
+    {
+        if (OnQuestionThemeEnter != null)
+            OnQuestionThemeEnter.Invoke(true);
+        ChooseFertilizer(1);
     }
 
     public void GrowPlant()

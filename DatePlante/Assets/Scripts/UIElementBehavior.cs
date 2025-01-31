@@ -10,6 +10,8 @@ public class UIElementBehavior : MonoBehaviour
     public bool listenToKeyboard;
     public bool listenToWateringStart;
     public bool listenToWateringEnd;
+    public bool listenToFertilizingStart;
+    public bool listenToFertilizingEnd;
     [BoxGroup("Behavior")] public bool useRectTransform;
 
     [BoxGroup("Behavior")] [ShowIf("useRectTransform")]
@@ -24,12 +26,12 @@ public class UIElementBehavior : MonoBehaviour
     [BoxGroup("Behavior")] public float heightPosPercent;
     [BoxGroup("Behavior")] public float widthPosPercent;
     [BoxGroup("Behavior")] public float keyboardCurveTimer;
-    [BoxGroup("Behavior")] private bool showElement;
     [BoxGroup("Behavior")] private bool movementComplete;
     [BoxGroup("Behavior")] public AnchorType anchor;
     [BoxGroup("Behavior")] private Vector2 elementShownPos;
     [BoxGroup("Behavior")] private Vector2 elementHiddenPos;
 
+    [BoxGroup("Debug")] public bool showElement;
     private Vector2 screenDimensions;
     void Start()
     {
@@ -70,6 +72,9 @@ public class UIElementBehavior : MonoBehaviour
         MainUIManager.instance.KeyboardEvent.AddListener(HandleKeyboardEvent);
         PlantManager.instance.OnQuestionTypeValidate.AddListener(HandleQuestionTypeValidation);
         PlantManager.instance.OnQuestionTypeEnter.AddListener(HandleQuestionTypeEnter);
+        
+        PlantManager.instance.OnQuestionThemeEnter.AddListener(HandleQuestionThemeEnter);
+        PlantManager.instance.OnQuestionThemeValidate.AddListener(HandleQuestionThemeValidation);
     }
 
 
@@ -137,6 +142,26 @@ public class UIElementBehavior : MonoBehaviour
             return;
 
         Debug.Log("Oui");
+        keyboardCurveTimer = 0;
+        movementComplete = false;
+        showElement = arg0;
+    }
+    private void HandleQuestionThemeValidation(bool arg0)
+    {
+        if (!listenToFertilizingStart)
+            return;
+
+        keyboardCurveTimer = 0;
+        movementComplete = false;
+        showElement = arg0;
+        elementShownPos = useRectTransform ? elementTransform.anchoredPosition : transform.position;
+    }
+
+    private void HandleQuestionThemeEnter(bool arg0)
+    {
+        if (!listenToFertilizingEnd)
+            return;
+
         keyboardCurveTimer = 0;
         movementComplete = false;
         showElement = arg0;

@@ -72,11 +72,22 @@ public class PlayerInputManager : MonoBehaviour
             if (hit.transform.TryGetComponent(out PlantManager plant))
             {
                 plant.isRotating = true;
+                return;
             }
-            else
+            if (hit.transform.TryGetComponent(out FertilizerModule module))
             {
-                objectToDrag = hit.transform;
+                if (module.openedFertilizer)
+                {
+                    objectToDrag = hit.transform;
+                }
+                else
+                {
+                    module.isOpening = true;
+                }
+                return;
             }
+            objectToDrag = hit.transform;
+            
         }
         //Debug.Log("Pressed at:" + touchWorldPos);
     }
