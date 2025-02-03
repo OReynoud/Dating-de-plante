@@ -65,10 +65,8 @@ public class PlayerInputManager : MonoBehaviour
         touchWorldPos = _playerInput.camera.ScreenToWorldPoint(touchPosAction.ReadValue<Vector2>());
         touchWorldPos.z = 0;
         previousPos = touchWorldPos;
-        if (Physics.SphereCast(touchWorldPos + Vector3.back * 3,touchSize,Vector3.forward, out RaycastHit hit, 6))
+        if (Physics.SphereCast(touchWorldPos + Vector3.back * 3,touchSize,Vector3.forward, out RaycastHit hit, 6,canDragMask))
         {
-            
-            Debug.Log("Hit");
             if (hit.transform.TryGetComponent(out PlantManager plant))
             {
                 plant.isRotating = true;

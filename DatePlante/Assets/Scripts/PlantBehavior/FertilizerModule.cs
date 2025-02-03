@@ -32,7 +32,6 @@ public class FertilizerModule : Module
     {
         if (openedFertilizer)
             return;
-        Debug.Log("Release me");
         openingState = 0;
         isOpening = false;
         canOpen = false;
@@ -105,6 +104,9 @@ public class FertilizerModule : Module
         currentTheme = themeToChoose;
         icon.sprite = allThemeIcons[(int)themeToChoose - 1];
         openedFertilizer = false;
+        openingState = 0;
         componentUI.keyboardCurveTimer = 0;
+        componentUI.movementComplete = false;
+
     }
 }
