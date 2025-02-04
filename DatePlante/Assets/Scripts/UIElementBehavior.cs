@@ -26,7 +26,7 @@ public class UIElementBehavior : MonoBehaviour
     [BoxGroup("Behavior")] public float heightPosPercent;
     [BoxGroup("Behavior")] public float widthPosPercent;
     [BoxGroup("Behavior")] public float keyboardCurveTimer;
-    [BoxGroup("Behavior")] private bool movementComplete;
+    [BoxGroup("Behavior")] public bool movementComplete;
     [BoxGroup("Behavior")] public AnchorType anchor;
     [BoxGroup("Behavior")] private Vector2 elementShownPos;
     [BoxGroup("Behavior")] private Vector2 elementHiddenPos;
@@ -63,12 +63,12 @@ public class UIElementBehavior : MonoBehaviour
                 break;
             case AnchorType.Down:
                 elementHiddenPos = useRectTransform
-                    ? new Vector2(screenDimensions.x * widthPosPercent, -screenDimensions.y * (1 - heightPosPercent))
-                    : Camera.main.ScreenToWorldPoint(new Vector3(screenDimensions.x * widthPosPercent, -screenDimensions.y * (1 - heightPosPercent), -10));
+                    ? new Vector2(screenDimensions.x * widthPosPercent, -screenDimensions.y * heightPosPercent)
+                    : Camera.main.ScreenToWorldPoint(new Vector3(screenDimensions.x * widthPosPercent, -screenDimensions.y * heightPosPercent, -10));
                 break;
         }
 
-        keyboardCurveTimer = showElementCurve.keys[^1].time - Time.deltaTime;
+        keyboardCurveTimer = hideElementCurve.keys[^1].time - Time.deltaTime;
         MainUIManager.instance.KeyboardEvent.AddListener(HandleKeyboardEvent);
         PlantManager.instance.OnQuestionTypeValidate.AddListener(HandleQuestionTypeValidation);
         PlantManager.instance.OnQuestionTypeEnter.AddListener(HandleQuestionTypeEnter);

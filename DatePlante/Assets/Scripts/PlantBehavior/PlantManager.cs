@@ -10,18 +10,22 @@ using UnityEngine.UI;
 public class PlantManager : MonoBehaviour
 {
     public static PlantManager instance;
-    public TMP_Dropdown wateringCanOptions;
-    public Transform[] plantStates;
-    public ParticleSystem growUpVfx;
+    [BoxGroup("References")]public TMP_Dropdown wateringCanOptions;
+    [BoxGroup("References")]public Transform[] plantStates;
+    [BoxGroup("References")]public ParticleSystem growUpVfx;
     public ThemesList chosenTheme;
     public QuestionTypes chosenType;
-    public WateringCanModule wateringCanModule;
-    public FertilizerModule fertilizerModule;
-    public TextMeshProUGUI questionText;
-    public QuestionListSo allQuestions;
+    [BoxGroup("References")]public WateringCanModule wateringCanModule;
+    [BoxGroup("References")]public FertilizerModule fertilizerModule;
+    [BoxGroup("References")]public TextMeshProUGUI questionText;
+    [BoxGroup("References")]public QuestionListSo allQuestions;
    
 
-    public Transform flowerTransform;
+    [BoxGroup("References")]public Transform flowerTransform;
+    
+    [BoxGroup("References")]public Transform potTransform;
+    
+    [BoxGroup("References")]public Vector3 potOffset;
 
     public float rotationSpeedMultiplier;
     [Range(0, 1)] public float animSpeed = 0.05f;
@@ -79,6 +83,8 @@ public class PlantManager : MonoBehaviour
         flowerTransform.position = Vector3.Lerp(
             new Vector3(flowerTransform.position.x, minYPos, flowerTransform.position.z),
             new Vector3(flowerTransform.position.x, maxYPos, flowerTransform.position.z), lerpYPos);
+        
+        potTransform.position = flowerTransform.position + potOffset;
 
         lerpYPos = Mathf.Lerp(lerpYPos, aimedYLerp, animSpeed);
         if (isRotating)
@@ -112,6 +118,7 @@ public class PlantManager : MonoBehaviour
     public void ChooseFertilizer(int index)
     {
         fertilizerModule.UpdateFertilizerType((ThemesList)index);
+        
     }
 
     public void ValidateWateringCanChoice(QuestionTypes ChosenType)
