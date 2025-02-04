@@ -58,10 +58,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b3f09cf3048f0414193a2fa4f112c59f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 45ed8e1b81ba2ef41bbe395ba84c4078, type: 2}
+    - target: {fileID: -7511558181221131132, guid: b3f09cf3048f0414193a2fa4f112c59f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 45ed8e1b81ba2ef41bbe395ba84c4078, type: 2}
     - target: {fileID: 919132149155446097, guid: b3f09cf3048f0414193a2fa4f112c59f,
         type: 3}
       propertyPath: m_Name
-      value: SM_Branche_01
+      value: Prefab_Branche_01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
