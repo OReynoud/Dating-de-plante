@@ -42,18 +42,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Color_Control: 1
-    - _Contrast_Control: 0.12
-    - _Density_Control: 32.2
+    - _Color_Control: 0.151
+    - _Contrast_Control: -0.1
+    - _Density_Control: 18.15
     - _Disolve_Control: 0.001
+    - _Gradient_Control: 0.83
     - _Liquifie_Speed: 0.003
-    - _Noise_Control: 21.83
+    - _Noise_Control: 21.88
     - _Patern_Control: -0.15
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Swirl_Control: -0.91
     m_Colors:
     - _Color: {r: 0.45710218, g: 0.9056604, b: 0.7572911, a: 0}
+    - _Gradient_Color: {r: 1, g: 1, b: 1, a: 0}
     - _Noise_Scroling: {r: 5.78, g: 0, b: 0, a: 0}
     - _Tiling_Control: {r: 5.81, g: 14.6, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -216,17 +216,17 @@ PrefabInstance:
     - target: {fileID: 2798618877607240912, guid: 763fd601f441ea6498679e9b6d49f933,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.12
+      value: 0.41
       objectReference: {fileID: 0}
     - target: {fileID: 2798618877607240912, guid: 763fd601f441ea6498679e9b6d49f933,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.22
+      value: 3.59
       objectReference: {fileID: 0}
     - target: {fileID: 2798618877607240912, guid: 763fd601f441ea6498679e9b6d49f933,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.18
+      value: 1.29
       objectReference: {fileID: 0}
     - target: {fileID: 2798618877607240912, guid: 763fd601f441ea6498679e9b6d49f933,
         type: 3}
@@ -680,7 +680,7 @@ Transform:
   m_GameObject: {fileID: 802992565}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.11, y: -2.04, z: 0}
+  m_LocalPosition: {x: -5.11, y: 3.59, z: 0}
   m_LocalScale: {x: 1.9864202, y: 24.564848, z: 25.05265}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1056,6 +1056,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PS_Stars (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8240974226259159864, guid: a1935a87380f7be45b826e0d37d01b9c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1196,6 +1201,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PS_Fertilizer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8267057493569274930, guid: eb3403b737c0bf649b83e3ea8da7fc9a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
