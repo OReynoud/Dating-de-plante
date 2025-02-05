@@ -46,7 +46,7 @@ public class PlantManager : MonoBehaviour
     [BoxGroup("Growth Behavior")] public AnimationCurve growthAnim;
     
     [Foldout("Debug")] public int growthState;
-    [Foldout("Debug")] public int fullyGrownPlants;    
+    [Foldout("Debug")] public int fullyGrownPlants;
 
     public UnityEvent<bool> OnQuestionTypeValidate { get; set; } = new();
     public UnityEvent<bool> OnQuestionTypeEnter { get; set; } = new();
@@ -235,8 +235,8 @@ public class PlantManager : MonoBehaviour
         {
             plantStates[growthState - 1].gameObject.SetActive(false);
             growthState = -1;
+            questionPlants[fullyGrownPlants].gameObject.SetActive(true);
             fullyGrownPlants++;
-            questionPlants[fullyGrownPlants].gameObject.SetActive(false);
             return;
         }
         growthState++;
