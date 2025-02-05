@@ -9,6 +9,7 @@ using Screen = UnityEngine.Device.Screen;
 public class MainUIManager : MonoBehaviour
 {
     public static MainUIManager instance;
+    
     public GameObject fertilizerButton;
     public GameObject wateringButton;
     [BoxGroup("Keyboard")]public RectTransform keyboardTransform;
