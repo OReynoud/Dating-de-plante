@@ -581,6 +581,56 @@ PrefabInstance:
       propertyPath: NoiseModule.strength.scalar
       value: 0.37
       objectReference: {fileID: 0}
+    - target: {fileID: 5881981813877454418, guid: 9c7b17e9d242fbc40b0d52b91f940f48,
+        type: 3}
+      propertyPath: RotationModule.curve.maxCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881981813877454418, guid: 9c7b17e9d242fbc40b0d52b91f940f48,
+        type: 3}
+      propertyPath: RotationModule.curve.maxCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881981813877454418, guid: 9c7b17e9d242fbc40b0d52b91f940f48,
+        type: 3}
+      propertyPath: RotationModule.curve.maxCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881981813877454418, guid: 9c7b17e9d242fbc40b0d52b91f940f48,
+        type: 3}
+      propertyPath: RotationModule.curve.maxCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881981813877454418, guid: 9c7b17e9d242fbc40b0d52b91f940f48,
+        type: 3}
+      propertyPath: RotationModule.curve.maxCurve.m_Curve.Array.data[1].inSlope
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881981813877454418, guid: 9c7b17e9d242fbc40b0d52b91f940f48,
+        type: 3}
+      propertyPath: RotationModule.curve.maxCurve.m_Curve.Array.data[0].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881981813877454418, guid: 9c7b17e9d242fbc40b0d52b91f940f48,
+        type: 3}
+      propertyPath: RotationModule.curve.maxCurve.m_Curve.Array.data[1].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881981813877454418, guid: 9c7b17e9d242fbc40b0d52b91f940f48,
+        type: 3}
+      propertyPath: RotationModule.curve.maxCurve.m_Curve.Array.data[1].outSlope
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881981813877454418, guid: 9c7b17e9d242fbc40b0d52b91f940f48,
+        type: 3}
+      propertyPath: RotationModule.curve.maxCurve.m_Curve.Array.data[0].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881981813877454418, guid: 9c7b17e9d242fbc40b0d52b91f940f48,
+        type: 3}
+      propertyPath: RotationModule.curve.maxCurve.m_Curve.Array.data[1].outWeight
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1073,6 +1123,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1571330986169736926, guid: a1935a87380f7be45b826e0d37d01b9c,
         type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571330986169736926, guid: a1935a87380f7be45b826e0d37d01b9c,
+        type: 3}
       propertyPath: ShapeModule.randomPositionAmount
       value: 1.12
       objectReference: {fileID: 0}
@@ -1269,7 +1324,7 @@ PrefabInstance:
     - target: {fileID: 7749014013892909208, guid: a1935a87380f7be45b826e0d37d01b9c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: -0.126
       objectReference: {fileID: 0}
     - target: {fileID: 7749014013892909208, guid: a1935a87380f7be45b826e0d37d01b9c,
         type: 3}
@@ -1314,7 +1369,7 @@ PrefabInstance:
     - target: {fileID: 8240974226259159864, guid: a1935a87380f7be45b826e0d37d01b9c,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
