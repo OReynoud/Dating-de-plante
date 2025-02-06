@@ -82,13 +82,13 @@ public class UIElementBehavior : MonoBehaviour
     private Vector2 aimedPosition;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (showElement && !movementComplete)
         {
             if (keyboardCurveTimer < showElementCurve.keys[^1].time)
             {
-                keyboardCurveTimer += Time.deltaTime;
+                keyboardCurveTimer += Time.fixedDeltaTime;
                 aimedPosition = Vector2.LerpUnclamped(elementHiddenPos, elementShownPos,
                     showElementCurve.Evaluate(keyboardCurveTimer));
             }
@@ -101,7 +101,7 @@ public class UIElementBehavior : MonoBehaviour
         {
             if (keyboardCurveTimer < hideElementCurve.keys[^1].time)
             {
-                keyboardCurveTimer += Time.deltaTime;
+                keyboardCurveTimer += Time.fixedDeltaTime;
                 aimedPosition = Vector2.LerpUnclamped(elementShownPos, elementHiddenPos,
                     hideElementCurve.Evaluate(keyboardCurveTimer));
             }

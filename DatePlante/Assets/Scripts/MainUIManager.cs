@@ -15,6 +15,7 @@ public class MainUIManager : MonoBehaviour
     public Button cooldownResetButton;
     public GameObject fertilizerButton;
     public GameObject wateringButton;
+    public Image[] fertilizerChoiceButtons;
     [BoxGroup("Keyboard")]public RectTransform keyboardTransform;
     [BoxGroup("Keyboard")]public AnimationCurve showKeyboardCurve;
     [BoxGroup("Keyboard")]public AnimationCurve hideKeyboardCurve;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine.UI;
 
 public class FertilizerModule : Module
 {
+    public static FertilizerModule instance;
     [BoxGroup("References")] public Image icon;
     [BoxGroup("References")] public Sprite[] allThemeIcons;
     [BoxGroup("References")] public Transform topOfFertilizer;
@@ -21,6 +23,17 @@ public class FertilizerModule : Module
 
     private UIElementBehavior componentUI;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            DestroyImmediate(this);
+        }
+
+        instance = this;
+    }
+
     void Start()
     {
         componentUI = GetComponent<UIElementBehavior>();

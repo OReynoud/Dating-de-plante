@@ -34,8 +34,8 @@ public class PlantManager : MonoBehaviour
     [Range(0, 1)] public float keyboardYLerp;
 
     private float[] questionPlantsTimers;
-    private float maxYPos;
-    private float minYPos;
+    private float maxPos;
+    private float minPos;
     [Range(0, 1)] private float lerpYPos;
     [Range(0, 1)] private float aimedYLerp;
     public bool isRotating { get; set; }
@@ -45,6 +45,7 @@ public class PlantManager : MonoBehaviour
     [BoxGroup("Growth Behavior")] public TextMeshProUGUI cooldownText;
     [BoxGroup("Growth Behavior")] public AnimationCurve growthAnim;
 
+    [Foldout("Debug")] public float screenXPosPercent;
     [Foldout("Debug")] public int growthState;
     [Foldout("Debug")] public int fullyGrownPlants;
     [Foldout("Debug")] public float cooldownTimer;
@@ -73,8 +74,14 @@ public class PlantManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxYPos = Camera.main.ScreenToWorldPoint(new Vector3(0, Display.main.systemHeight, -10)).y;
-        minYPos = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, -10)).y;
+        minPos = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, -10)).x;
+        maxPos = Camera.main.ScreenToWorldPoint(new Vector3( Display.main.systemWidth, 0, -10)).x;
+        
+        flowerTransform.position = new Vector3(Mathf.Lerp(minPos, maxPos, screenXPosPercent),
+            flowerTransform.position.y, flowerTransform.position.z);
+        
+        maxPos = Camera.main.ScreenToWorldPoint(new Vector3(0, Display.main.systemHeight, -10)).y;
+        minPos = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, -10)).y;
         aimedYLerp = defaultYLerp;
         MainUIManager.instance.KeyboardEvent.AddListener(HandleKeyboardEvent);
         PlayerInputManager.instance.OnTouchRelease.AddListener(PlantReleaseSpin);
@@ -87,15 +94,13 @@ public class PlantManager : MonoBehaviour
         aimedYLerp = shown ? keyboardYLerp : defaultYLerp;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        PlantScaleAndPos();
         GrowthUpdate();
-
+        PlantScaleAndPos();
         if (cooldownTimer > 0)
         {
-            cooldownTimer -= Time.deltaTime;
+            cooldownTimer -= Time.fixedDeltaTime;
 
             cooldownText.text = string.Format("{0:D2}:{1:D2}:{2:D2}", 
                 Mathf.FloorToInt(cooldownTimer / 3600) % 24,
@@ -116,11 +121,17 @@ public class PlantManager : MonoBehaviour
         }
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        PlantRotation();
+    }
+
     private void GrowthUpdate()
     {
         if (growthAnimTimer < growthAnim.keys[^1].time)
         {
-            growthAnimTimer += Time.deltaTime;
+            growthAnimTimer += Time.fixedDeltaTime;
             if (growthState >= 0)
             {
                 plantStates[growthState].localScale = Vector3.one * growthAnim.Evaluate(growthAnimTimer);
@@ -131,7 +142,7 @@ public class PlantManager : MonoBehaviour
         {
             if (questionPlantsTimers[fullyGrownPlants - 1] < growthAnim.keys[^1].time)
             {
-                questionPlantsTimers[fullyGrownPlants - 1] += Time.deltaTime;
+                questionPlantsTimers[fullyGrownPlants - 1] += Time.fixedDeltaTime;
                 questionPlants[fullyGrownPlants - 1].transform.localScale =
                     Vector3.one * growthAnim.Evaluate(questionPlantsTimers[fullyGrownPlants - 1]);
             }
@@ -141,12 +152,16 @@ public class PlantManager : MonoBehaviour
     private void PlantScaleAndPos()
     {
         flowerTransform.position = Vector3.Lerp(
-            new Vector3(flowerTransform.position.x, minYPos, flowerTransform.position.z),
-            new Vector3(flowerTransform.position.x, maxYPos, flowerTransform.position.z), lerpYPos);
+            new Vector3(flowerTransform.position.x, minPos, flowerTransform.position.z),
+            new Vector3(flowerTransform.position.x, maxPos, flowerTransform.position.z), lerpYPos);
 
         potTransform.position = flowerTransform.position + potOffset;
 
         lerpYPos = Mathf.Lerp(lerpYPos, aimedYLerp, animSpeed);
+    }
+
+    private void PlantRotation()
+    {
         if (isRotating)
         {
             transform.rotation = Quaternion.Euler(transform.eulerAngles.x,
