@@ -52,11 +52,11 @@ Material:
     m_Floats:
     - _Dither_Control: -0.46
     - _Float: 30.58
-    - _Fresnel_Control: -0.04
+    - _Fresnel_Control: 0.26
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ScanLine_Contrast: -0.42
-    - _ScanLine_Number: 7.3
+    - _ScanLine_Number: 5.43
     - _Scrolling_Speed: 0.2
     m_Colors:
     - _Color: {r: 0, g: 11.524789, b: 5.2831964, a: 0}
