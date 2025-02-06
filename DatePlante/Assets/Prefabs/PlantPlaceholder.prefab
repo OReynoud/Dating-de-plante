@@ -74,14 +74,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f0ebfe9fd4c1a847bc595ec478b4b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chosenTheme: 0
+  chosenType: 0
   wateringCanOptions: {fileID: 0}
   plantStates:
   - {fileID: 6512148062426307871}
   - {fileID: 2476634551480871091}
   - {fileID: 6971241012652126170}
+  questionPlants: []
   growUpVfx: {fileID: 1671489539873769245}
-  chosenTheme: 0
-  chosenType: 0
   wateringCanModule: {fileID: 0}
   fertilizerModule: {fileID: 0}
   questionText: {fileID: 0}
@@ -93,6 +94,7 @@ MonoBehaviour:
   animSpeed: 0.05
   defaultYLerp: 0.2
   keyboardYLerp: 0.5
+  cooldownText: {fileID: 0}
   growthAnim:
     serializedVersion: 2
     m_Curve:
@@ -145,6 +147,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   growthState: -1
+  fullyGrownPlants: 0
 --- !u!1001 &215099476409522627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -950,7 +953,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 45ed8e1b81ba2ef41bbe395ba84c4078, type: 2}
+      objectReference: {fileID: 2100000, guid: 7de62eff867efa64893907da5a86d3fc, type: 2}
     - target: {fileID: 919132149155446097, guid: b3f09cf3048f0414193a2fa4f112c59f,
         type: 3}
       propertyPath: m_Name
@@ -1066,7 +1069,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 45ed8e1b81ba2ef41bbe395ba84c4078, type: 2}
+      objectReference: {fileID: 2100000, guid: 7de62eff867efa64893907da5a86d3fc, type: 2}
     - target: {fileID: 919132149155446097, guid: b3f09cf3048f0414193a2fa4f112c59f,
         type: 3}
       propertyPath: m_Name
@@ -1443,7 +1446,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 45ed8e1b81ba2ef41bbe395ba84c4078, type: 2}
+      objectReference: {fileID: 2100000, guid: 7de62eff867efa64893907da5a86d3fc, type: 2}
     - target: {fileID: 919132149155446097, guid: b3f09cf3048f0414193a2fa4f112c59f,
         type: 3}
       propertyPath: m_Name
