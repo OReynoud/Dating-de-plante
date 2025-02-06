@@ -108,6 +108,7 @@ public class UIElementBehavior : MonoBehaviour
             else
             {
                 movementComplete = true;
+                Start();
             }
         }
 
@@ -141,7 +142,6 @@ public class UIElementBehavior : MonoBehaviour
         if (!listenToWateringStart)
             return;
 
-        Debug.Log("Oui");
         keyboardCurveTimer = 0;
         movementComplete = false;
         showElement = arg0;

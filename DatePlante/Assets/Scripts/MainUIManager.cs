@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Screen = UnityEngine.Device.Screen;
 
 public class MainUIManager : MonoBehaviour
 {
     public static MainUIManager instance;
-    
+
+    public Button cooldownResetButton;
     public GameObject fertilizerButton;
     public GameObject wateringButton;
     [BoxGroup("Keyboard")]public RectTransform keyboardTransform;
@@ -86,5 +89,15 @@ public class MainUIManager : MonoBehaviour
         keyboardCurveTimer = 0;
         if (KeyboardEvent != null)
             KeyboardEvent.Invoke(false);
+    }
+
+    public void ResetCooldown()
+    {
+        PlantManager.instance.cooldownTimer = 0;
+    }
+
+    public void ResetScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
