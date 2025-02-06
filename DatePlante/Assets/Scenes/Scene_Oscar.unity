@@ -641,7 +641,7 @@ PrefabInstance:
     - target: {fileID: 1657723395066023239, guid: 94726fc9e66262f408cc803632ad9201,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -364.80103
+      value: -1184.5103
       objectReference: {fileID: 0}
     - target: {fileID: 1861571010937288875, guid: 94726fc9e66262f408cc803632ad9201,
         type: 3}
@@ -768,6 +768,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 3243310397379343915, guid: 94726fc9e66262f408cc803632ad9201,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3683466311001966710, guid: 94726fc9e66262f408cc803632ad9201,
         type: 3}
       propertyPath: m_Size
