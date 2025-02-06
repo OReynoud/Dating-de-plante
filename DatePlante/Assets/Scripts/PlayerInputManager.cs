@@ -45,7 +45,7 @@ public class PlayerInputManager : MonoBehaviour
     private void OnDisable()
     {
         touchPressAction.performed -= TouchPressActionOnPerformed;
-        touchPressAction.canceled += TouchPressActionOnCancelled;
+        touchPressAction.canceled -= TouchPressActionOnCancelled;
     }
 
     private void Update()

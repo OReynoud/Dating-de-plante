@@ -14,18 +14,19 @@ public class PlantManager : MonoBehaviour
     public static PlantManager instance;
     public ThemesList chosenTheme;
     public QuestionTypes chosenType;
-    
-    [Foldout("References")]public TMP_Dropdown wateringCanOptions;
-    [Foldout("References")]public Transform[] plantStates;
-    [Foldout("References")]public QuestionPlantStorage[] questionPlants;
-    [Foldout("References")]public ParticleSystem growUpVfx;
-    [Foldout("References")]public WateringCanModule wateringCanModule;
-    [Foldout("References")]public FertilizerModule fertilizerModule;
-    [Foldout("References")]public TextMeshProUGUI questionText;
-    [Foldout("References")]public QuestionListSo allQuestions;
-    [Foldout("References")]public Transform flowerTransform;
-    [Foldout("References")]public Transform potTransform;
-    [Foldout("References")]public Vector3 potOffset;
+
+    [Foldout("References")] public GameObject newPlantButton;
+    [Foldout("References")] public TMP_Dropdown wateringCanOptions;
+    [Foldout("References")] public Transform[] plantStates;
+    [Foldout("References")] public QuestionPlantStorage[] questionPlants;
+    [Foldout("References")] public ParticleSystem growUpVfx;
+    [Foldout("References")] public WateringCanModule wateringCanModule;
+    [Foldout("References")] public FertilizerModule fertilizerModule;
+    [Foldout("References")] public TextMeshProUGUI questionText;
+    [Foldout("References")] public QuestionListSo allQuestions;
+    [Foldout("References")] public Transform flowerTransform;
+    [Foldout("References")] public Transform potTransform;
+    [Foldout("References")] public Vector3 potOffset;
 
     public float rotationSpeedMultiplier;
     [Range(0, 1)] public float animSpeed = 0.05f;
@@ -39,14 +40,15 @@ public class PlantManager : MonoBehaviour
     [Range(0, 1)] private float aimedYLerp;
     public bool isRotating { get; set; }
     private float spinValue;
-    
+
     [BoxGroup("Growth Behavior")] private float growthAnimTimer;
     [BoxGroup("Growth Behavior")] public TextMeshProUGUI cooldownText;
-    [BoxGroup("Growth Behavior")] private float cooldownTimer;
     [BoxGroup("Growth Behavior")] public AnimationCurve growthAnim;
-    
+
     [Foldout("Debug")] public int growthState;
     [Foldout("Debug")] public int fullyGrownPlants;
+    [Foldout("Debug")] public float cooldownTimer;
+    [Foldout("Debug")] public bool cooldownActive;
 
     public UnityEvent<bool> OnQuestionTypeValidate { get; set; } = new();
     public UnityEvent<bool> OnQuestionTypeEnter { get; set; } = new();
@@ -55,7 +57,7 @@ public class PlantManager : MonoBehaviour
 
     private List<QuestionSo> tempQuestionsHolder = new List<QuestionSo>();
 
-    private TimeSpan _timeSpan;
+    
 
 
     private void Awake()
@@ -94,9 +96,23 @@ public class PlantManager : MonoBehaviour
         if (cooldownTimer > 0)
         {
             cooldownTimer -= Time.deltaTime;
-            _timeSpan = TimeSpan.FromSeconds(cooldownTimer);
-            
-            cooldownText.text = string.Format("{0:D2}:{1:D2}:{2:D2}", _timeSpan.Hours, _timeSpan.Minutes, _timeSpan.Seconds);
+
+            cooldownText.text = string.Format("{0:D2}:{1:D2}:{2:D2}", 
+                Mathf.FloorToInt(cooldownTimer / 3600) % 24,
+                Mathf.FloorToInt(cooldownTimer * 0.016666f) % 60, 
+                Mathf.FloorToInt(cooldownTimer) % 60);
+        }
+        else if(cooldownActive)
+        {
+            questionText.transform.parent.gameObject.SetActive(false);
+            MainUIManager.instance.cooldownResetButton.interactable = false;
+            cooldownActive = false;
+            newPlantButton.SetActive(true);
+            chosenTheme = ThemesList.None;
+            chosenType = QuestionTypes.None;
+            wateringCanModule.isValidated = false;
+            fertilizerModule.isValidated = false;
+            cooldownText.text = "New plant is ready!";
         }
     }
 
@@ -105,7 +121,7 @@ public class PlantManager : MonoBehaviour
         if (growthAnimTimer < growthAnim.keys[^1].time)
         {
             growthAnimTimer += Time.deltaTime;
-            if (growthState>=0)
+            if (growthState >= 0)
             {
                 plantStates[growthState].localScale = Vector3.one * growthAnim.Evaluate(growthAnimTimer);
             }
@@ -116,7 +132,8 @@ public class PlantManager : MonoBehaviour
             if (questionPlantsTimers[fullyGrownPlants - 1] < growthAnim.keys[^1].time)
             {
                 questionPlantsTimers[fullyGrownPlants - 1] += Time.deltaTime;
-                questionPlants[fullyGrownPlants - 1].transform.localScale = Vector3.one * growthAnim.Evaluate(questionPlantsTimers[fullyGrownPlants - 1]);
+                questionPlants[fullyGrownPlants - 1].transform.localScale =
+                    Vector3.one * growthAnim.Evaluate(questionPlantsTimers[fullyGrownPlants - 1]);
             }
         }
     }
@@ -126,14 +143,16 @@ public class PlantManager : MonoBehaviour
         flowerTransform.position = Vector3.Lerp(
             new Vector3(flowerTransform.position.x, minYPos, flowerTransform.position.z),
             new Vector3(flowerTransform.position.x, maxYPos, flowerTransform.position.z), lerpYPos);
-        
+
         potTransform.position = flowerTransform.position + potOffset;
 
         lerpYPos = Mathf.Lerp(lerpYPos, aimedYLerp, animSpeed);
         if (isRotating)
         {
             transform.rotation = Quaternion.Euler(transform.eulerAngles.x,
-                transform.eulerAngles.y + (PlayerInputManager.instance.previousPos.x - PlayerInputManager.instance.touchWorldPos.x) * rotationSpeedMultiplier
+                transform.eulerAngles.y +
+                (PlayerInputManager.instance.previousPos.x - PlayerInputManager.instance.touchWorldPos.x) *
+                rotationSpeedMultiplier
                 , transform.eulerAngles.z);
         }
         else
@@ -149,10 +168,10 @@ public class PlantManager : MonoBehaviour
     {
         wateringCanModule.UpdateWateringCanType((QuestionTypes)wateringCanOptions.value + 1);
     }
+
     public void ChooseFertilizer(int index)
     {
         fertilizerModule.UpdateFertilizerType((ThemesList)index);
-        
     }
 
     public void ValidateWateringCanChoice(QuestionTypes ChosenType)
@@ -164,11 +183,12 @@ public class PlantManager : MonoBehaviour
             OnQuestionTypeValidate.Invoke(false);
         if (chosenTheme == ThemesList.None)
             MainUIManager.instance.fertilizerButton.SetActive(true);
-        
-        
+
+
         if (chosenType != QuestionTypes.None && chosenTheme != ThemesList.None)
             AskQuestion();
     }
+
     public void ValidateFertilizerChoice(ThemesList ChosenTheme)
     {
         chosenTheme = ChosenTheme;
@@ -198,13 +218,15 @@ public class PlantManager : MonoBehaviour
         int rand = Random.Range(0, tempQuestionsHolder.Count);
         questionText.transform.parent.gameObject.SetActive(true);
         questionText.text = tempQuestionsHolder[rand].questionContent;
+        MainUIManager.instance.cooldownResetButton.interactable = true;
         StartCooldown();
     }
 
     private void StartCooldown()
     {
-        cooldownTimer = 24 * 60 * 60;
+        cooldownTimer = 24 * 60 * 60 - 1;
         cooldownText.transform.parent.gameObject.SetActive(true);
+        cooldownActive = true;
     }
 
     public void PlantReleaseSpin()
@@ -212,7 +234,8 @@ public class PlantManager : MonoBehaviour
         if (!isRotating)
             return;
         isRotating = false;
-        spinValue = (PlayerInputManager.instance.previousPos.x - PlayerInputManager.instance.touchWorldPos.x) * rotationSpeedMultiplier;
+        spinValue = (PlayerInputManager.instance.previousPos.x - PlayerInputManager.instance.touchWorldPos.x) *
+                    rotationSpeedMultiplier;
     }
 
     public void StartWatering()
@@ -233,18 +256,20 @@ public class PlantManager : MonoBehaviour
     {
         if (growthState == plantStates.Length - 1)
         {
-            plantStates[growthState - 1].gameObject.SetActive(false);
+            plantStates[growthState].gameObject.SetActive(false);
             growthState = -1;
             questionPlants[fullyGrownPlants].gameObject.SetActive(true);
             fullyGrownPlants++;
             return;
         }
+
         growthState++;
         plantStates[growthState].gameObject.SetActive(true);
         if (growthState > 0)
         {
             plantStates[growthState - 1].gameObject.SetActive(false);
         }
+
         growUpVfx.Play();
         growthAnimTimer = 0;
     }

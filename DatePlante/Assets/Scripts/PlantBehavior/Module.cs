@@ -18,7 +18,7 @@ public class Module : MonoBehaviour
     [Foldout("Debug")] public float aimedRotation;
     [Foldout("Debug")] public float pouringTimer;
 
-    protected bool isValidated;
+    public bool isValidated;
     
     public float DistanceFromFlower()
     {
